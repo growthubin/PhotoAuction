@@ -231,7 +231,6 @@
     // 제출버튼 누름 -> POST
     let submitForm = document.querySelector('#bid_submit');
     submitForm.addEventListener("click", function (message) {
-        $(this).attr("disabled", true);
 
         let bid_price = Number($("#bid_price").val());
         let bidder_name = $("#bidder_name").val();
@@ -271,6 +270,7 @@
 
             } else {  // 문제 없으면
                 if (check(bidder_name, bidder_phone, bidder_email, bid_agree) !== false) {
+                    $(this).attr("disabled", true);
                     $.ajax({
                         url: '{%  url 'submit' %}',
                         type: 'POST',
@@ -298,7 +298,7 @@
         } else {
             if (check(bidder_name, bidder_phone, bidder_email, bid_agree) !== false) {
                 param['bid_price'] = buy_now;  // post할 때, bid_price를 즉시구매가로 대체
-                console.log(param);
+                $(this).attr("disabled", true);
 
                 $.ajax({
                     url: '{%  url 'submit' %}',
@@ -359,8 +359,7 @@
     const left_container = document.getElementById("left-container");
 
     /* 반응형 웹 사이트 */
-    if (window.innerWidth <= 900) {
-        console.log(window.innerWidth, '아마 모바일');
+    if (window.innerWidth <= 768) {
 
         // container 모바일이면 세로로 나열
         main_container.style.flexDirection = "column";
