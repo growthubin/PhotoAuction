@@ -99,6 +99,7 @@ p {
     border-radius: 25px;
     width: 500px;
     height: 500px;
+    filter: drop-shadow(0px 3px 12px #777777);
 }
 
 .product-img {
@@ -139,10 +140,7 @@ button {
 }
 
 .product-intro {
-    width: 60%;
-    height: 700px;
-    border: 1px solid lightgray;
-    border-radius: 25px;
+    width: 50%;
     text-align: center;
     margin: 40px auto;
 }
@@ -203,7 +201,7 @@ button {
 
 @media only screen and (max-width: 901px) {
     html {
-        font-size: 150%;
+        font-size: 160%;
     }
 
     .detail-table {
@@ -224,6 +222,11 @@ button {
 
     .modal-middle {
         width: 80%;
+    }
+
+    .product-intro {
+        width: 100%;
+        padding: 20px 0;
     }
 
 }
