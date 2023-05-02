@@ -214,8 +214,8 @@
         modal.style.display = "flex";  // button 클릭하면 display: flex로 바꿔
         document.body.style.overflowY = "hidden"; // 스크롤 없애기
 
-        document.getElementById("bid_top").innerHTML = "즉시 구매";
-        document.getElementById("bid_price_form").innerHTML = "<p>즉시 구매가</p><p>" + buy_now + "</p>";
+        document.getElementById("bid_top").innerHTML = "<p class='font-size-regular'>즉시구매</p>";
+        document.getElementById("bid_price_form").innerHTML = "<p class='font-size-regular'>즉시 구매가</p><p class='font-size-regular'>" + buy_now + "</p>";
     });
 
     // 모달 닫기
