@@ -128,6 +128,47 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+
+# Get static 로그 출력 안하기
+def skip_static_requests(record):
+    return not record.args[0].startswith('GET /static/')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        # use Django's built in CallbackFilter to point to your filter
+        'skip_static_requests': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': skip_static_requests
+        }
+    },
+    'formatters': {
+        # django's default formatter
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[%(server_time)s] %(message)s',
+        }
+    },
+    'handlers': {
+        # django's default handler...
+        'django.server': {
+            'level': 'INFO',
+            'filters': ['skip_static_requests'],  # <- ...with one change
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
+    },
+    'loggers': {
+        # django's default logger
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    }
+}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
