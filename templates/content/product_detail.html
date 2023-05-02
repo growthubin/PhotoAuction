@@ -1,0 +1,384 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>작품 상세 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %} ">
+    <style>
+        .top {
+            text-align: center;
+            align-content: center;
+            display: grid;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)), url("{% static 'top_background_image.jpg' %}");
+            background-size: 100%;
+            align-items: center;
+            height: 200px;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body style="min-width: 900px">
+<div class="top">
+    <p class="bold" style="color: whitesmoke; font-size: 40px; cursor:pointer"
+       onclick="location.href='http://localhost:8000'"> 메인으로
+        돌아가기</p>
+</div>
+
+<div class="main-container" id="main-container">
+    {% for product in products %}
+        <!-- 왼쪽 -->
+        <div class="left-container" id="left-container">
+            <!--이미지-->
+            <div class="image-box hi">  {# 일단 아무거나 눌러도 같은 상세페이지 #}
+                <img class="product-img"
+                     src="{% get_static_prefix %}{{ product.image }}">
+            </div>
+        </div>
+
+        <!-- 오른쪽 -->
+        <div class="right-container" id="right-container">
+            <div style="padding-left: 15px;">
+                <p class="bold" id="product-info-title"> 제품 정보</p>
+                <hr class="detail-table">
+                <p class="medium font-size-regular">제품명: {{ product.product_name }}</p>
+                <p class="regular font-size-regular">사이즈: {{ product.product_size }}</p>
+                <p class="regular font-size-regular">시작가: 5000원</p>
+                <p class="regular font-size-regular">즉시 구매가: {{ product.buy_now }}</p>
+                <hr class="detail-table">
+                <p class="font-size-regular" style="padding-top: 20px">현재 가격: <span
+                        style="font-weight: bold">{{ product.current_price }}</span></p>
+                <p class="medium font-size-regular" style="color: red" id="sold_out"></p>
+            </div>
+
+            <!-- 버튼 div -->
+            <div class="button-box">
+                <div>
+                    <button class="w-btn w-btn-green modal-btn font-size-regular" id="click_bid"
+                            onclick="window.scrollTo(0,0)">입찰하기
+                    </button>
+                </div>
+                <div>
+                    <button class="w-btn w-btn-orange modal-btn font-size-regular" id="click_buy_now"
+                            onclick="window.scrollTo(0,0)">즉시 구매
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- 하단 상세 페이지 -->
+<div class="product-intro">
+    <!--전시 포스터-->
+    <div>
+        <img style="width: 100%" src="{% static 'exhibition_intro.jpg' %}">
+    </div>
+
+    <!-- 전시 설명, 추후 태그 달아서 시리즈 별 설명 추가-->
+    <div>
+    </div>
+</div>
+
+<!-- contact -->
+<div class="site-end">
+    <p class="bold font-size-regular"> Contact </p>
+    <!-- 박수빈 -->
+    <div class="contact_info" style="display: inline-flex; justify-content: center; padding-top: 5px;">
+        <div style="text-align: left">
+            <p class="regular contact-info" style="color: dimgray"> 박수빈 </p>
+            <p class="regular contact-info" style="color: dimgray"> E-mail: sbinp5818@naver.com </p>
+            <p class="regular contact-info" style="color: dimgray"> Instagram: @su.napshot </p>
+        </div>
+        <!-- 옥키 -->
+        <div style="margin-left: 50px; text-align: left">
+            <p class="regular contact-info" style="color: dimgray"> 옥키 Oki Coffee & Gallery</p>
+            <p class="regular contact-info" style="color: dimgray"> Tel: 070 4233 2012 </p>
+            <p class="regular contact-info" style="color: dimgray"> 서울특별시 중구 삼일대로4길 19 2층 </p>
+        </div>
+    </div>
+    <div class="font-size-small" style="color: gray; padding-top: 10px"> COPYRIGHT 2023 박수빈. ALL RIGHTS RESERVED.</div>
+</div>
+
+<!-- 모달 -->
+<div id="modal_click_bid" class="modal_overlay">
+    <div class="modal_window">
+
+        <!-- 모달 상단 -->
+        <div class="modal_title">
+            <div class="modal_title_side"></div>
+            <div id="bid_top"></div>
+            <div class="modal_title_side">
+                    <span style="font-size: 3.0rem; cursor: pointer" id="close_modal" class="material-icons">
+                        close
+                    </span>
+            </div>
+        </div>
+
+        <!-- 중간 -->
+        {% for product in products %}
+            <div class="modal-middle">
+                <div id="current_price" style="display:flex; flex-direction:row; justify-content: space-between">
+                    <p class="font-size-regular">현재가</p>
+                    <p class="medium font-size-regular">{{ product.current_price }}</p>
+                </div>
+
+                <!--정보 입력 폼-->
+                <div id="bid_price_form" style="display:flex; flex-direction:row; justify-content: space-between"></div>
+                <div style="background-color: whitesmoke; width: 100%; margin-top: 5px; padding: 15px;">
+                    <p class="font-size-regular"><label>성명 <input id="bidder_name" type="text"
+                                                                  name="bidder_name"></label></p>
+                    <p class="font-size-regular"><label>전화번호 <input id="bidder_phone" type="text" name="bidder_phone"
+                                                                    maxlength="11"></label></p>
+                    <p class="font-size-regular"><label>이메일 <input id="bidder_email" type="email"
+                                                                   name="bidder_email"></label></p>
+                </div>
+
+                <p class="bold font-size-regular" style="margin-top: 20px">개인정보 수집 및 제공 동의</p>
+                <p class="font-size-small">입찰자의 정보가 작품 배송을 위해 제3자(갤러리카페 옥키)에게 제공될 수 있습니다.
+                    입찰자는 개인정보제공 동의를 거부할 권리가 있으나, 거부시 입찰할 수 없습니다. 경매 기간 이후 모든 배송 완료시 개인정보를 파기합니다.
+                    <br>수집 정보: 이름, 전화번호, 이메일</p>
+                <p class="medium font-size-small" style="color:red; text-align: center;">***입찰취소가 불가하니 신중한 입찰
+                    부탁드립니다***</p>
+
+                <!-- 하단 -->
+                <div style="display: grid; justify-content: center">
+                    <p class="font-size-regular"><label>주의 사항을 읽었으며, 동의합니다<input style="zoom: 1.5;" id="bid_agree"
+                                                                                 type="checkbox" name="bid_agree"
+                                                                                 value="agree"></label></p>
+                    <p class="font-size-regular" style="display:grid; justify-content: center">
+                        <label><input id="bid_submit" type="submit" name="bid_submit" value="제출"></label>
+                    </p>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    {% for product in products %}
+        const product_name = "{{ product.product_name }}"
+        const current_price = {{ product.current_price }}
+        const buy_now = {{ product.buy_now }}
+        const sold = '{{ product.sold }}'
+    {% endfor %}
+
+    // 모달 열기 + 무슨 버튼 눌렀는 지까지 -> html에 내용 쏴줌
+    const modal = document.getElementById("modal_click_bid");
+    const bidModal = document.getElementById("click_bid");
+    const buynowModal = document.getElementById("click_buy_now");
+
+    if (sold === 'True') {
+        bidModal.disabled = true;
+        buynowModal.disabled = true;
+        document.getElementById("sold_out").innerHTML = "작품이 낙찰되었습니다";
+    }
+
+
+    // 입찰하기 버튼 click
+    bidModal.addEventListener("click", e => {
+        modal.style.display = "flex";  // button 클릭하면 display: flex로 바꿔
+        document.body.style.overflowY = "hidden"; // 스크롤 없애기
+
+        document.getElementById("bid_top").innerHTML = "<p class='font-size-regular'>입찰하기</p>";
+        document.getElementById("bid_price_form").innerHTML = '<p class="font-size-regular">입찰가<span class=font-size-small>(호가단위: 1000원)</span></p>'
+            + '<div class="select-box">'
+            + '     <select class="select" id="bid_price">'
+            + '         <option selected><p class="font-size-regular">가격 선택</p></option>'
+            + '     </select>'
+            + '</div>'
+
+        // 유저 입찰 가격 선택
+        var select = document.getElementById("bid_price");
+        for (var i = current_price + 1000; i < buy_now; i += 1000) {
+            var option = document.createElement("option");
+            option.value = i;
+            option.text = i;
+            select.appendChild(option);
+        }
+    });
+
+
+    // 즉시 구매 버튼
+    buynowModal.addEventListener("click", e => {
+        modal.style.display = "flex";  // button 클릭하면 display: flex로 바꿔
+        document.body.style.overflowY = "hidden"; // 스크롤 없애기
+
+        document.getElementById("bid_top").innerHTML = "즉시 구매";
+        document.getElementById("bid_price_form").innerHTML = "<p>즉시 구매가</p><p>" + buy_now + "</p>";
+    });
+
+    // 모달 닫기
+    const buttonCloseModal = document.getElementById("close_modal");
+    buttonCloseModal.addEventListener("click", e => {
+        modal.style.display = "none";
+        document.body.style.overflowY = "visible";
+    });
+
+
+
+
+    // 제출버튼 누름 -> POST
+    let submitForm = document.querySelector('#bid_submit');
+    submitForm.addEventListener("click", function (message) {
+        $(this).attr("disabled", true);
+
+        let bid_price = Number($("#bid_price").val());
+        let bidder_name = $("#bidder_name").val();
+        let bidder_phone = $("#bidder_phone").val();
+        let bidder_email = $("#bidder_email").val();
+        let bid_agree = $("#bid_agree").is(':checked');  // true or false
+        let param = {
+            'product_name': product_name,
+            'bidder_name': bidder_name,
+            'bid_price': bid_price,
+            'bidder_phone': bidder_phone,
+            'bidder_email': bidder_email
+        }
+
+        // bid_price 값이 있으면, 입찰 모달
+        if (!isNaN(bid_price)) {
+            console.log('bid_price는', bid_price);
+
+            /* 가격 유효성 검사 */
+            if (bid_price <= current_price) {
+                alert("현재가보다 더 높은 가격을 입력해주십시오");
+
+                document.getElementById("bid_price").value = ''; // 입찰 가격칸 비우기
+                $('#bid_price').focus(); // 포커스를 이동시켜 바로 이름 입력할 수 있게
+
+            } else if (bid_price % 1000 !== 0) {
+                alert("1000원 단위로 호가를 제출해주세요");
+
+                document.getElementById("bid_price").value = '';
+                $('#bid_price').focus();
+
+            } else if (bid_price > 300000) {
+                alert("올바른 가격을 입력해주세요");
+
+                document.getElementById("bid_price").value = '';
+                $('#bid_price').focus();
+
+            } else {  // 문제 없으면
+                if (check(bidder_name, bidder_phone, bidder_email, bid_agree) !== false) {
+                    $.ajax({
+                        url: '{%  url 'submit' %}',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRFTOKEN': '{{ csrf_token }}'
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(param),
+
+                        success: function (data) {
+                            location.reload();
+                            alert('입찰이 완료되었습니다');
+                        },
+                        error: function (status, error) {
+                            alert(error);
+                            console.log(error);
+                        }
+                    });
+                } else {
+                    console.log('양식 확인');
+                }
+            }
+
+            // bid_price is NaN 이면 즉시구매 모달
+        } else {
+            if (check(bidder_name, bidder_phone, bidder_email, bid_agree) !== false) {
+                param['bid_price'] = buy_now;  // post할 때, bid_price를 즉시구매가로 대체
+                console.log(param);
+
+                $.ajax({
+                    url: '{%  url 'submit' %}',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFTOKEN': '{{ csrf_token }}'
+                    },
+                    contentType: "application/json",
+                    data: JSON.stringify(param),
+
+                    success: function (data) {
+                        location.reload();
+                        alert('입찰이 완료되었습니다');
+                    },
+                    error: function (status, error) {
+                        alert(error);
+                        console.log(error);
+                    }
+                });
+            } else {
+                console.log('양식 확인');
+            }
+        }
+    });
+
+    // input 유효성 검사
+    function check(bidder_name, bidder_phone, bidder_email, bid_agree) {
+        /* 이름 유효성 검사 */
+        if (bidder_name.length === 0) { // myform.id.value == "" 이것도 가능
+            alert("이름은 필수 항목입니다");
+            $('#bidder_name').focus(); // 포커스를 이동시켜 바로 이름 입력할 수 있게
+            return false;
+        }
+
+        /* 핸드폰 번호 11자리 아닐 경우*/
+        if (bidder_phone.length !== 11) {
+            alert("올바른 핸드폰 번호가 아닙니다");
+            $('#bidder_phone').focus();
+            return false;
+        }
+
+        /* 이메일 입력이 안됐거나 이메일 형식이 아닐 경우*/
+        if (bidder_email.length === 0) {
+            alert("올바른 이메일 주소가 아닙니다");
+            $('#bidder_email').focus();
+            return false;
+        }
+
+        if (bid_agree === false) {
+            alert('개인정보 수집에 동의해야 입찰이 가능합니다');
+
+            return false;
+        }
+    }
+
+    const main_container = document.getElementById("main-container");
+    const right_container = document.getElementById("right-container");
+    const left_container = document.getElementById("left-container");
+
+    /* 반응형 웹 사이트 */
+    if (window.innerWidth <= 900) {
+        console.log(window.innerWidth, '아마 모바일');
+
+        // container 모바일이면 세로로 나열
+        main_container.style.flexDirection = "column";
+        main_container.style.alignItems = "center";
+
+        //  각 컨테이너 위치 조정
+        right_container.style.width = "80%";
+        left_container.style.width = "100%";
+        left_container.style.justifyContent = "center";
+
+        modal.style.position = "fixed"; // 모달 위치 최적화
+
+    } else {
+        console.log(window.innerWidth);
+    }
+
+
+</script>
+
+</body>
+</html>
