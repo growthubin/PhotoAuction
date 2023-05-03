@@ -353,30 +353,6 @@
             return false;
         }
     }
-
-    const main_container = document.getElementById("main-container");
-    const right_container = document.getElementById("right-container");
-    const left_container = document.getElementById("left-container");
-
-    /* 반응형 웹 사이트 */
-    if (window.innerWidth <= 768) {
-
-        // container 모바일이면 세로로 나열
-        main_container.style.flexDirection = "column";
-        main_container.style.alignItems = "center";
-
-        //  각 컨테이너 위치 조정
-        right_container.style.width = "80%";
-        left_container.style.width = "100%";
-        left_container.style.justifyContent = "center";
-
-        modal.style.position = "fixed"; // 모달 위치 최적화
-
-    } else {
-        console.log(window.innerWidth);
-    }
-
-
 </script>
 
 </body>

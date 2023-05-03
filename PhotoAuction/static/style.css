@@ -229,4 +229,22 @@ button {
         padding: 20px 0;
     }
 
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .right-container {
+        width: 80%;
+    }
+
+    .left-container {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #modal_click_bid {
+        position: fixed;
+    }
+
 }
