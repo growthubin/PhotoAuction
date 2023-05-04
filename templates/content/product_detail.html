@@ -55,7 +55,7 @@
                 <hr class="detail-table">
                 <p class="font-size-regular" style="padding-top: 20px">현재 가격: <span
                         style="font-weight: bold">{{ product.current_price }}</span></p>
-                <p class="medium font-size-regular" style="color: red" id="sold_out"></p>
+                <p class="medium font-size-regular" id="sold_out"></p>
             </div>
 
             <!-- 버튼 div -->
@@ -181,7 +181,11 @@
     if (sold === 'True') {
         bidModal.disabled = true;
         buynowModal.disabled = true;
-        document.getElementById("sold_out").innerHTML = "작품이 낙찰되었습니다";
+        document.getElementById("sold_out").innerHTML = "<span style='color: red' >작품이 낙찰되었습니다</span>";
+    } else if (sold === 'Always') {
+        bidModal.hidden = true;
+        buynowModal.hidden = true;
+        document.getElementById("sold_out").innerHTML = "<br><span style='font-weight: bold; color: orange'>Pigment print</span><br>옥키(<span style='text-decoration: underline' onclick=window.open('https://instagram.com/cafe_oki?igshid=YmMyMTA2M2Y=')>@cafe_oki</span>)에서 상시 구매 가능합니다"
     }
 
 

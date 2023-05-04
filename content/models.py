@@ -9,7 +9,7 @@ class Product(models.Model):
     buy_now = models.IntegerField()  # 즉시 구매가
     current_price = models.IntegerField()  # 현재 최고 입찰가
     frame = models.TextField(default="X")  # 액자 유무
-    sold = models.BooleanField(default=False)  # 판매 여부
+    sold = models.TextField(default=False)  # 판매 여부
 
 
 # 입찰 정보
