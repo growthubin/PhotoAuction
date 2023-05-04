@@ -13,7 +13,7 @@ class Main(APIView):
         product_list = Product.objects.all()  # Product의 모든 데이터를 가져오겠다
 
         content = {'products': product_list}
-        return render(request, "auction/main.html", context=content)
+        return render(request, "auction/main2.html", context=content)
 
 
 class SearchResult(APIView):
