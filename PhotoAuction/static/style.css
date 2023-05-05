@@ -116,12 +116,30 @@ button {
     margin: 0 15px;
 }
 
+#get_noti {
+    width: 80%;
+    margin-top: 2rem;
+}
+
 .w-btn {
     position: relative;
     border: none;
     display: inline-block;
     padding: 10px 40px;
     border-radius: 10px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.w-btn-mini {
+    position: relative;
+    border: none;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
     font-family: "paybooc-Light", sans-serif;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
     text-decoration: none;
@@ -243,8 +261,14 @@ button {
         justify-content: center;
     }
 
-    #modal_click_bid {
+    .modal_overlay {
         position: fixed;
+    }
+
+    #get_noti {
+        width: 100%;
+        margin: 2rem auto;
+        display: inline-flex;
     }
 
 }
