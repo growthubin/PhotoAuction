@@ -50,6 +50,8 @@ class PostForm(APIView):
 
         # Product의 current price와 비교했을 때, bid_price가 더 크면 Bid 업데이트
         if json_object.get('bid_price') > product[0].current_price:
+
+            # DB에 입찰 내역 저장
             bid_list = Bid.objects.create(
                 product_name=product_name,
                 bidder_name=bidder_name,
@@ -58,8 +60,6 @@ class PostForm(APIView):
                 bidder_email=bidder_email
             )
             bid_list.save()
-            send_email(bidder_email,bidder_name,product_name,bid_price)
-            print('이메일 발송')
 
             # 현재 가격 업데이트
             for product1 in product:
@@ -69,6 +69,13 @@ class PostForm(APIView):
                     product1.current_price = 0
                     product1.save()
 
+                    # 기존의 입찰자에게 메일 보내기
+                    send_others(product, bid_price, "판매종료")
+
+                    # 입찰 당사자에게 메일
+                    send_email(bidder_email, bidder_name, product_name, bid_price, "즉시 구매")
+                    print('이메일 발송')
+
                     print(product1.product_name, ' 즉시 구매 ', product1.sold, ' 판매 완료')
 
                 # 일반적인 입찰
@@ -76,16 +83,57 @@ class PostForm(APIView):
                     product1.current_price = bid_price
                     product1.save()
 
+                    # 기존의 입찰자에게 메일 보내기
+                    send_others(product, bid_price, "입찰")
+
+                    # 입찰 당사자에게 메일
+                    send_email(bidder_email, bidder_name, product_name, bid_price, "입찰")
+                    print('이메일 발송')
+
                     print(product1.product_name, ' 현재 가격 갱신 ', product1.current_price, '원')
 
         return HttpResponse(status=200)  # html에 뿌리기 위한 return
 
 
-def send_email(email, bidder_name, product_name, bid_price):
+def send_email(email, bidder_name, product_name, bid_price, buy_option):
     email = EmailMessage(
-        '사진 경매 입찰 내역',  # 이메일 제목
-        '안녕하세요, {0}님\n\n입찰 내역 안내드립니다\n작품명: {1}\n입찰가: {2} \n\n감사합니다\n박수빈 드림 '
-        '\n@su.napshot\nhttp://www.photoauction.site'.format(bidder_name, product_name, bid_price),  # 내용
+        '[{0}내역] 사진 경매 {0} 내역'.format(buy_option),  # 이메일 제목
+        '안녕하세요, {1}님\n\n{0} 내역 안내드립니다\n작품명: {2}\n{1}가: {3} \n\n감사합니다\n박수빈 드림 '
+        '\n@su.napshot\nhttp://www.photoauction.site'.format(buy_option, bidder_name, product_name, bid_price),  # 내용
         to=[email],  # 받는 이메일
     )
     email.send()
+
+
+def send_others(product_info, bid_price, message):
+    product_name = product_info[0].product_name  # 입찰된 작품명 불러오기
+    bids = Bid.objects.filter(product_name=product_name)  # 입찰 내역에서 해당하는 작품명으로 필터링
+
+    # 기존에 입찰내역이 있으면
+    if len(bids) > 0:
+        if message == "입찰":
+            for bid in bids:
+                email_to_others = EmailMessage(
+                    '[가격갱신] 입찰하셨던 작품의 가격이 갱신되었습니다',  # 이메일 제목
+                    '안녕하세요, \n\n입찰하셨던 작품의 가격이 갱신되었음을 안내드립니다\n\n작품명: {0}\n갱신가: {1} \n\n감사합니다\n박수빈 드림 '
+                    '\n@su.napshot\nhttp://www.photoauction.site'.format(product_name, bid_price),  # 내용
+                    to=[bid.bidder_email],  # 받는 이메일
+                )
+
+                email_to_others.send()
+                print('가격갱신 메일 발송')
+
+        elif message == "판매종료":
+            for bid in bids:
+                email_to_others = EmailMessage(
+                    '[판매종료] 입찰하셨던 작품이 판매 종료되었습니다',  # 이메일 제목
+                    '안녕하세요, \n\n입찰하셨던 작품의 판매가 종료되었음을 안내드립니다\n\n작품명: {0}\n\n감사합니다\n박수빈 드림 '
+                    '\n@su.napshot\nhttp://www.photoauction.site'.format(product_name),  # 내용
+                    to=[bid.bidder_email],  # 받는 이메일
+                )
+
+                email_to_others.send()
+                print('경매종료 메일 발송')
+
+    else:
+        print('첫 입찰')

@@ -110,11 +110,11 @@
     {% for product in products %}
         sold = '{{ product.sold }}';
         id = {{ product.id }} -1
-        if (sold === '1') {
+        if (sold === 'True') {
             document.getElementsByClassName("sold")[id].innerHTML = '<span class="badge rounded-pill text-bg-secondary">sold out</span>'
         } else if (sold === '0') {
             document.getElementsByClassName("sold")[id].innerHTML = '<span class="badge rounded-pill text-bg-success">진행중</span>'
-        } else {
+        } else if (sold === "Always") {
             document.getElementsByClassName("sold")[id].innerHTML = '<span class="badge rounded-pill text-bg-success">상시 판매</span>'
         }
     {% endfor %}

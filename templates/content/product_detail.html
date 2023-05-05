@@ -230,8 +230,6 @@
     });
 
 
-
-
     // 제출버튼 누름 -> POST
     let submitForm = document.querySelector('#bid_submit');
     submitForm.addEventListener("click", function (message) {
@@ -344,8 +342,15 @@
             return false;
         }
 
+        let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+
         /* 이메일 입력이 안됐거나 이메일 형식이 아닐 경우*/
         if (bidder_email.length === 0) {
+            alert("이메일을 입력해주세요");
+            $('#bidder_email').focus();
+            return false;
+
+        } else if (regex.test(bidder_email) === false) {
             alert("올바른 이메일 주소가 아닙니다");
             $('#bidder_email').focus();
             return false;
