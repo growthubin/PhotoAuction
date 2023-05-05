@@ -30,7 +30,7 @@ class SearchResult(APIView):
 
             # 추후, 원래 있던 content_product DB에 상세  이미지 (단독컷 2개, 단체컷 하나) 추가할 예정
             # db를 하나 더 쌓을 수도...(Model)
-            return render(request, "content/product_detail.html", context=dict(products=product))
+            return render(request, "content/product_detail2.html", context=dict(products=product))
 
         # else:
         # message: 검색 결과가 없습니다

@@ -15,8 +15,8 @@ class Main(APIView):
 class Detail(APIView):
     def get(self, request):
         print("상세페이지 GET")
-        return render(request, "content/product_detail.html")
+        return render(request, "content/product_detail2.html")
 
     def post(self, request):
         print("상세페이지에서 POST")
-        return render(request, "content/product_detail.html")
+        return render(request, "content/product_detail2.html")
