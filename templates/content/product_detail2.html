@@ -211,6 +211,11 @@ forward_to_inbox
         modal.style.display = "flex";  // button 클릭하면 display: flex로 바꿔
         document.body.style.overflowY = "hidden"; // 스크롤 없애기
 
+        guide[1].hidden = false;
+
+        document.getElementById("name_label").hidden = false;
+        document.getElementById("phone_label").hidden = false;
+
         document.getElementById("bid_top").innerHTML = "<p class='font-size-regular'>입찰하기</p>";
         document.getElementById("bid_price_form").innerHTML = '<p class="font-size-regular">입찰가<span class=font-size-small>(호가단위: 1000원)</span></p>'
             + '<div class="select-box">'
@@ -234,6 +239,11 @@ forward_to_inbox
     buynowModal.addEventListener("click", e => {
         modal.style.display = "flex";  // button 클릭하면 display: flex로 바꿔
         document.body.style.overflowY = "hidden"; // 스크롤 없애기
+
+        guide[1].hidden = false;
+
+        document.getElementById("name_label").hidden = false;
+        document.getElementById("phone_label").hidden = false;
 
         document.getElementById("bid_top").innerHTML = "<p class='font-size-regular'>즉시구매</p>";
         document.getElementById("bid_price_form").innerHTML = "<p class='font-size-regular'>즉시 구매가</p><p class='font-size-regular'>" + buy_now + "</p>";
