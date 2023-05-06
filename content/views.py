@@ -48,19 +48,9 @@ class PostForm(APIView):
         bidder_phone = json_object.get('bidder_phone')
         bidder_email = json_object.get('bidder_email')
 
-        # DB에 입찰 내역 저장
-        bid_list = Bid.objects.create(
-            product_name=product_name,
-            bidder_name=bidder_name,
-            bid_price=bid_price,
-            bidder_phone=bidder_phone,
-            bidder_email=bidder_email
-        )
-        bid_list.save()
-
         # 현재 가격 업데이트
         for product1 in product:
-            # 즉시구매를 했거나 입찰가가 최대에 도달한 경우
+            # 즉시구매인 경우
             if bid_price == product1.buy_now:
                 product1.sold = True
                 product1.current_price = 0
@@ -99,6 +89,16 @@ class PostForm(APIView):
 
                 email_to_noti.send()
                 print('메일 알림 신청')
+
+        # DB에 입찰 내역 저장
+        bid_list = Bid.objects.create(
+            product_name=product_name,
+            bidder_name=bidder_name,
+            bid_price=bid_price,
+            bidder_phone=bidder_phone,
+            bidder_email=bidder_email
+        )
+        bid_list.save()
 
         return HttpResponse(status=200)  # html에 뿌리기 위한 return
 
@@ -144,4 +144,4 @@ def send_others(product_info, bid_price, message):
                 print('경매종료 메일 발송')
 
     else:
-        print('첫 입찰') # 첫 입찰이니까 아무한테도 안 보내도 됨
+        print('첫 입찰')  # 첫 입찰이니까 아무한테도 안 보내도 됨
