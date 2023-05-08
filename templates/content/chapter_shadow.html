@@ -14,51 +14,37 @@
     <link rel="stylesheet" type="text/css" href="{% static 'base.css' %} ">
 
     <style>
-        p {
-            font-family: 'Noto Sans KR', serif;
-        }
-
         .in {
             text-indent: 0.8rem;
-        }
-
-        .regular {
-            font-weight: 400;
-        }
-
-        .medium {
-            font-weight: 600;
-        }
-
-        .bold {
-            font-weight: 700;
         }
 
         .top {
             text-align: center;
             align-content: center;
             display: grid;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)), url("{% static 'top_background_image.jpg' %}");
+            background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)), url("{% static 'shadow_exhibited.JPG' %}");
             background-size: 100%;
             align-items: center;
             height: 200px;
             margin-bottom: 50px;
         }
-
     </style>
 </head>
 <body>
 <div class="top">
     <p class="bold" style="color: whitesmoke; font-size: 2rem; cursor:pointer"
-       onclick="location.href='http://localhost:8000'"> 메인으로
+       onclick="location.href='http://www.photoauction.site'"> 메인으로
         돌아가기</p>
 </div>
-<!--일출 이미지-->
+<!--그림자 이미지-->
 <div style="display: flex; text-align: center">
-    <p class="in font-size-large" style="font-size:50px">그림자</p>
+    <p class="in title-font" style="font-size:50px; padding: 20px">그림자</p>
 </div>
 <!-- Chapter 설명 -->
 <div style="padding: 20px;">
+    <div style="display: flex; justify-content: center; margin: 25px">
+        <img style="width: 100%" src="{% static 'shadow1.jpg' %}">
+    </div>
     <p class="in font-size-regular"> 가끔 내가 아무것도 아닌 존재임에 위안과 힘을 얻을 때가 있다.</p>
     <p class="in font-size-regular"> 사람에 비해 한없이 큰 사물이나 그 그림자를 좋아하는 이유다. 누군가에게 잘 보이려 나를 통제하려 애써도 대자연 속의 개미가 움찔하는 것 그 이상도,
         그 이하도 아닐지 모른다.</p>
