@@ -17,10 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from content.views import Main, SearchResult, PostForm
+from .views import Chapter1, Chapter2, Chapter3
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", Main.as_view(), name='main'),
     path("search/", SearchResult.as_view(), name='search_result'),
-    path("submit/", PostForm.as_view(), name='submit')
+    path("submit/", PostForm.as_view(), name='submit'),
+    path("chapter1", Chapter1.as_view(), name='chapter1'),
+    path("chapter2", Chapter2.as_view(), name='chapter2'),
+    path("chapter3", Chapter3.as_view(), name='chapter3')
 ]

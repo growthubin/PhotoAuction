@@ -12,11 +12,16 @@ class Main(APIView):
         return render(request, "auction/main2.html")
 
 
-class Detail(APIView):
+class Chapter1(APIView):
     def get(self, request):
-        print("상세페이지 GET")
-        return render(request, "content/product_detail2.html")
+        return render(request, "content/chapter_sunrise.html")
 
-    def post(self, request):
-        print("상세페이지에서 POST")
-        return render(request, "content/product_detail2.html")
+
+class Chapter2(APIView):
+    def get(self, request):
+        return render(request, "content/chapter_shadow.html")
+
+
+class Chapter3(APIView):
+    def get(self, request):
+        return render(request, "content/chapter_beach.html")

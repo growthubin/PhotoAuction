@@ -1,0 +1,92 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chapter 바다</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %} ">
+
+    <style>
+        p {
+            font-family: 'Noto Sans KR', serif;
+        }
+
+        .in {
+            text-indent: 0.8rem;
+        }
+
+        .regular {
+            font-weight: 400;
+        }
+
+        .medium {
+            font-weight: 600;
+        }
+
+        .bold {
+            font-weight: 700;
+        }
+
+        .top {
+            text-align: center;
+            align-content: center;
+            display: grid;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)), url("{% static 'top_background_image.jpg' %}");
+            background-size: 100%;
+            align-items: center;
+            height: 200px;
+            margin-bottom: 50px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="top">
+    <p class="bold" style="color: whitesmoke; font-size: 2rem; cursor:pointer"
+       onclick="location.href='http://localhost:8000'"> 메인으로
+        돌아가기</p>
+</div>
+<!--일출 이미지-->
+<div style="display: flex; text-align: center">
+    <p class="in font-size-large" style="font-size:50px">바다</p>
+</div>
+<!-- Chapter 설명 -->
+<div style="padding: 20px;">
+    <p class="in font-size-regular"> 바다 사진은 찍을 때나, 사진을 고를 때나 고민을 안겨줬다. 피사체가 예쁘니 남들과 비슷해 보이고 성의 없다는 느낌을 지울 수 없었다. 이 고민에
+        대한 답으로 들은 ‘자기만의 스토리가 있어야 한다’는 말이 알듯 말듯 하다 어느 순간 와닿았다.
+    </p>
+    <p class="in font-size-regular">라이트룸에 모아놓은 제주 사진들을 둘러보며 어떤 게 좋아서 이 때 셔터를 눌렀지, 회고를 하던 중 내가 선호하는 바다 사진의 특징을 알아냈다. 분명
+        여러 번 본 사진들인데도 불현듯 그 속에서 취향을 깨달은 게 신기하면서도 반가웠다.
+    </p>
+    <p class="in font-size-regular"> 날씨 좋은 날에 가서 투명하게 속이 비쳤던 세화해변이 다시 보고 싶었다. 어떤 바다는 왜 에메랄드빛이고 어떤 바다는 아닌지 궁금해서 찾아봤던 시간이
+        기억났다. 얕게 바닷물이 오가는 사이의 돌에 쭈그려 앉아, 어렸을 때처럼 바다 밑의 구성물들을 구경했었다. 바다 위 윤슬을 좇다가 눈이 멀 것 같았던 순간의 무서움도, 여행을 떠나기 전 떨치고자 했던
+        잡념도, 모래를 쓸어가는 파도와 함께 실어 보냈다.</p>
+</div>
+<div style="padding: 20px;">
+    <p class="in font-size-regular"> When taking pictures of the sea or choosing pictures, they gave me a lot of
+        worries. Basically, the sea is pretty, so I couldn't get rid of the feeling of being similar and insincere. The
+        answer to this concern was that "you should have your own story," which I heard, seemed to know, but at some
+        point, it hit me.
+    </p>
+    <p class="in font-size-regular"> Looking around the Jeju photos collected in the light room, I pressed the shutter
+        at this time because I liked it, and I found out the characteristics of my preferred sea photos during my
+        retrospective. It was amazing and nice to see that I suddenly realized my taste in the photos even though I saw
+        them several times.</p>
+
+    <p class="in font-size-regular">I wanted to go on a fine day and see Sehwa Beach again, which was transparent. I
+        remembered the time when I searched because I was curious why some seas are emerald and some are not. I crouched
+        on a stone between shallow sea water and looked at the components under the sea as I was a child. The fear of
+        the moment when I felt like I was going to be blinded while chasing Yoon Seul on the sea, and the mixed thoughts
+        I wanted to shake off before going on the trip, I carried the sand with the waves sweeping away.</p>
+</div>
+
+
+</body>
+</html>
