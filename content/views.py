@@ -106,7 +106,7 @@ class PostForm(APIView):
 def send_email(email, bidder_name, product_name, bid_price, buy_option):
     email = EmailMessage(
         '[{0}내역] 사진 경매 {0} 내역'.format(buy_option),  # 이메일 제목
-        '안녕하세요, {1}님\n\n{0} 내역 안내드립니다\n작품명: {2}\n{1}가: {3} \n\n낙찰 시 2~3일 내로 연락드립니다.\n감사합니다\n박수빈 드림 '
+        '안녕하세요, {1}님\n\n{0} 내역 안내드립니다\n작품명: {2}\n{0}가: {3} \n\n낙찰 시 2~3일 내로 연락드립니다.\n감사합니다\n박수빈 드림 '
         '\n@su.napshot\nhttp://www.photoauction.site'.format(buy_option, bidder_name, product_name, bid_price),  # 내용
         to=[email],  # 받는 이메일
     )
