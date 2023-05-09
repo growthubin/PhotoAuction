@@ -13,7 +13,8 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %} ">
     <style>
         .top {
@@ -116,7 +117,8 @@ forward_to_inbox
         </div>
         <!-- 옥키 -->
         <div style="margin-left: 50px; text-align: left">
-            <p class="regular contact-info" style="color: dimgray; line-height: normal"> 옥키 OKi : Coffee & Photography</p>
+            <p class="regular contact-info" style="color: dimgray; line-height: normal"> 옥키 OKi : Coffee &
+                Photography</p>
             <p class="regular contact-info" style="color: dimgray"> Tel: 070 4233 2012 </p>
             <p class="regular contact-info" style="color: dimgray; line-height: normal"> 서울특별시 중구 삼일대로4길 19 2층 </p>
         </div>
@@ -239,12 +241,13 @@ forward_to_inbox
             + '</div>'
 
         // 유저 입찰 가격 선택
-        var select = document.getElementById("bid_price");
-        for (var i = current_price + 1000; i < buy_now; i += 1000) {
-            var option = document.createElement("option");
-            option.value = i;
-            option.text = i;
-            select.appendChild(option);
+        let start_price = $('#start_price').text();
+        console.log(start_price, "start_price");
+
+        if (start_price === '시작가: 5000원') {
+            option_append(5000, current_price)
+        } else if (start_price === '시작가: 10000원') {
+            option_append(10000, current_price)
         }
     });
 
@@ -428,6 +431,31 @@ forward_to_inbox
 
         }
     });
+
+    function option_append(start_price, current_price) {
+        let select = document.getElementById("bid_price");
+        var i;
+        var option;
+
+        // 시작가랑 현재가가 같으면
+        if (start_price === current_price) {
+            for (i = current_price; i < buy_now; i += 1000) {
+                option = document.createElement("option");
+                option.value = i;
+                option.text = i;
+                select.appendChild(option);
+            }
+
+            // 시작가랑 현재가랑 다르면 그냥 똑같이
+        } else {
+            for (i = current_price + 1000; i < buy_now; i += 1000) {
+                option = document.createElement("option");
+                option.value = i;
+                option.text = i;
+                select.appendChild(option);
+            }
+        }
+    }
 
     // input 유효성 검사
     function check(bidder_name, bidder_phone, bidder_email, bid_agree) {
