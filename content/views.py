@@ -49,7 +49,7 @@ class PostForm(APIView):
         bidder_email = json_object.get('bidder_email')
 
         # 현재 가격 업데이트
-        for product1 in product:
+        for product1 in product:  # 아마 한 개일 거지만 object를 꺼내야하므로 for문 사용
             # 즉시구매인 경우
             if bid_price == product1.buy_now:
                 product1.sold = True
@@ -117,27 +117,35 @@ def send_others(product_info, bid_price, message):
     product_name = product_info[0].product_name  # 입찰된 작품명 불러오기
     bids = Bid.objects.filter(product_name=product_name)  # 입찰 내역에서 해당하는 작품명으로 필터링
 
+    # 중복 입찰자 이메일은 한 번만 보내기
+    email_list = []
+
+    for bid in bids:
+        email_list.append(bid.bidder_email)
+
+    email_list = list(set(email_list))
+
     # 기존에 입찰내역이 있으면
     if len(bids) > 0:
         if message == "입찰":
-            for bid in bids:
+            for email in email_list:
                 email_to_others = EmailMessage(
                     '[가격갱신] 입찰하셨던 작품의 가격이 갱신되었습니다',  # 이메일 제목
                     '안녕하세요, \n\n입찰하셨던 작품의 가격이 갱신되었음을 안내드립니다\n\n작품명: {0}\n갱신가: {1} \n\n감사합니다\n박수빈 드림 '
                     '\n@su.napshot\nhttp://www.photoauction.site'.format(product_name, bid_price),  # 내용
-                    to=[bid.bidder_email],  # 받는 이메일
+                    to=[email],  # 받는 이메일
                 )
 
                 email_to_others.send()
                 print('가격갱신 메일 발송')
 
         elif message == "판매종료":
-            for bid in bids:
+            for email in email_list:
                 email_to_others = EmailMessage(
                     '[판매종료] 입찰하셨던 작품이 판매 종료되었습니다',  # 이메일 제목
                     '안녕하세요, \n\n입찰하셨던 작품의 판매가 종료되었음을 안내드립니다\n\n작품명: {0}\n\n감사합니다\n박수빈 드림 '
                     '\n@su.napshot\nhttp://www.photoauction.site'.format(product_name),  # 내용
-                    to=[bid.bidder_email],  # 받는 이메일
+                    to=[email],  # 받는 이메일
                 )
 
                 email_to_others.send()
